@@ -13,4 +13,16 @@
 
 Route::post('register', 'AuthController@register');
 Route::post('login', 'AuthController@login');
+Route::post('logout', 'AuthController@logout');
 Route::get('me', 'AuthController@me');
+Route::get('refresh', 'AuthController@refresh');
+
+Route::get('posts', 'PostsController@index');
+Route::get('posts/feed', 'PostsController@feed');
+Route::post('posts', 'PostsController@store');
+Route::get('posts/{post}', 'PostsController@show');
+
+Route::get('vehicles', 'VehiclesController@index');
+Route::post('vehicles', 'VehiclesController@store');
+Route::get('vehicles/{vehicle}', 'VehiclesController@update');
+Route::get('vehicles/{vehicle}', 'VehiclesController@destroy');
