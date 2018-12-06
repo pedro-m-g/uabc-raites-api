@@ -11,6 +11,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        factory(App\User::class)->create([
+            'email' => 'pedro.martindelcampo.gonzalez@gmail.com',
+            'is_driver' => true
+        ]);
+        factory(App\User::class)->create([
+            'email' => 'pedro.martin@uabc.edu.mx',
+            'is_driver' => false
+        ]);
     }
 }

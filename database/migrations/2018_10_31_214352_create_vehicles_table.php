@@ -21,6 +21,7 @@ class CreateVehiclesTable extends Migration
             $table->string('matricula');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

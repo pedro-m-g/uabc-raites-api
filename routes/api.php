@@ -24,5 +24,4 @@ Route::get('posts/{post}', 'PostsController@show');
 
 Route::get('vehicles', 'VehiclesController@index');
 Route::post('vehicles', 'VehiclesController@store');
-Route::get('vehicles/{vehicle}', 'VehiclesController@update');
-Route::get('vehicles/{vehicle}', 'VehiclesController@destroy');
+Route::delete('vehicles/{vehicle}', 'VehiclesController@destroy');
