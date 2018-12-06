@@ -27,7 +27,9 @@ class CreatePost extends FormRequest
         return [
             'due_date' => 'required|date|after:' . date('Y-m-d H:i:s'),
             'available_seats' => 'required|integer|min:1|max:6',
-            'comments' => 'present'
+            'comments' => 'present',
+            'vehicle_id' => 'required|exists:vehicles,id',
+            'route_id' => 'required|exists:routes,id'
         ];
     }
 

@@ -9,6 +9,7 @@ class Route extends Model
  
     protected $appends = [ 'items' ];
     protected $fillable = [ 'name' ];
+    protected $relations = [ 'items' ];
 
     public function items()
     {
@@ -17,7 +18,7 @@ class Route extends Model
 
     public function getItemsAttribute()
     {
-        return $this->items()->get();
+        return $this->items()->get()->keyBy('index');
     }
 
 }
