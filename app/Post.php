@@ -25,13 +25,6 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function scopeFeed($query)
-    {
-        return $query->where('due_date', '>', date('Y-m-d H:i:s'))
-                     ->orderBy('due_date', 'DESC')
-                     ->get();
-    }
-
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
@@ -40,6 +33,19 @@ class Post extends Model
     public function route()
     {
         return $this->belongsTo(Route::class);
+    }
+
+    public function scopePassengers($query)
+    {
+        $sql = 'SELECT users.*, trips.user_id FROM users JOIN trips ON trips.user_id = users.id AND trips.post_id = :post_id';
+        return \DB::select($sql, [ 'post_id' => $this->id ]);
+    }
+
+    public function scopeFeed($query)
+    {
+        return $query->where('due_date', '>', date('Y-m-d H:i:s'))
+                     ->orderBy('due_date', 'DESC')
+                     ->get();
     }
 
     public function getVehicleAttribute()

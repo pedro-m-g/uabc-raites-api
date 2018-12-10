@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Trip;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatePost;
 
@@ -57,6 +58,32 @@ class PostsController extends Controller
     public function show(Post $post)
     {
         return $post;
+    }
+
+    public function trip(Post $post)
+    {
+        $trip = false;
+        $exclude = collect($post->passengers())->pluck('id')->toArray();
+        $exclude[] = $post->user->id;
+        $user = auth()->user();
+        if ($post->available_seats > 0 && array_search($user->id, $exclude) === false) {
+            \DB::transaction(function () use (&$trip, $user, $post) {
+                $trip = Trip::create([
+                    'user_id' => $user->id,
+                    'post_id' => $post->id
+                ]);
+                $post->available_seats--;
+                $post->save();
+            });
+            return $trip;
+        } else {
+            return [ 'error' => 'El viaje no está disponible' ];
+        }
+    }
+
+    public function passengers(Post $post)
+    {
+        return $post->passengers();
     }
 
 }
