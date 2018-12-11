@@ -31,3 +31,6 @@ Route::delete('vehicles/{vehicle}', 'VehiclesController@destroy');
 Route::get('routes', 'RoutesController@index');
 Route::post('routes', 'RoutesController@store');
 Route::delete('routes/{route}', 'RoutesController@destroy');
+
+Route::get('trips', 'AuthController@trips');
+Route::post('trips/{trip}/rate', 'PostsController@rate');

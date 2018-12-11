@@ -60,17 +60,21 @@ class PostsController extends Controller
         return $post;
     }
 
-    public function trip(Post $post)
+    public function trip(Post $post, Request $request)
     {
+        $request->validate([
+            'place' => 'required'
+        ]);
         $trip = false;
         $exclude = collect($post->passengers())->pluck('id')->toArray();
         $exclude[] = $post->user->id;
         $user = auth()->user();
         if ($post->available_seats > 0 && array_search($user->id, $exclude) === false) {
-            \DB::transaction(function () use (&$trip, $user, $post) {
+            \DB::transaction(function () use (&$trip, $user, $post, $request) {
                 $trip = Trip::create([
                     'user_id' => $user->id,
-                    'post_id' => $post->id
+                    'post_id' => $post->id,
+                    'place'   => $request->place
                 ]);
                 $post->available_seats--;
                 $post->save();
@@ -79,6 +83,15 @@ class PostsController extends Controller
         } else {
             return [ 'error' => 'El viaje no está disponible' ];
         }
+    }
+
+    public function rate(Trip $trip, Request $request)
+    {
+        $request->validate([
+            'rating' => 'required|number|min:1|max:5'
+        ]);
+        $trip->rating = $request->rating;
+        $trip->save();
     }
 
     public function passengers(Post $post)

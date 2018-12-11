@@ -101,4 +101,8 @@ class AuthController extends Controller
         ]);
     }
 
+    public function trips() {
+        return auth()->user()->trips();
+    }
+
 }

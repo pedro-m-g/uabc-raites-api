@@ -53,4 +53,10 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Route::class);
     }
 
+    public function trips()
+    {
+        $sql = 'SELECT * FROM trips JOIN users ON users.id = trips.user_id AND users.id = :id';
+        return \DB::select($sql, [ 'id' => $this->id ]);
+    }
+
 }

@@ -37,7 +37,7 @@ class Post extends Model
 
     public function scopePassengers($query)
     {
-        $sql = 'SELECT users.*, trips.user_id FROM users JOIN trips ON trips.user_id = users.id AND trips.post_id = :post_id';
+        $sql = 'SELECT users.*, trips.place FROM users JOIN trips ON trips.user_id = users.id AND trips.post_id = :post_id';
         return \DB::select($sql, [ 'post_id' => $this->id ]);
     }
 
